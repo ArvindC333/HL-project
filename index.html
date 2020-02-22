@@ -43,9 +43,10 @@ body {font-family: Arial;}
   border-top: none;
 }
 
-  .bold-green-font {
+  .bold-white-font {
     font-weight: bold;
-    color: green;
+    color: white;
+    text-shadow: 2px 1px #000000;
   }
   
     .bold-font {
@@ -55,6 +56,23 @@ body {font-family: Arial;}
    .large-font {
     font-size: 20px;
   }
+  
+  .lightblue-background {
+    background-color: #cce6ff;
+  }
+  
+  .lightgreen-background {
+    background-color: #aaff80;
+  }
+  
+  .align-text {
+    text-align: center;
+  }
+  
+  .cell-border {
+  	border: 100px;
+  }
+  
   
   .underline-blue-font {
     text-decoration: underline;
@@ -151,7 +169,7 @@ body {font-family: Arial;}
     
     function drawThree() {
       var queryString3 =  encodeURIComponent('')
-      var magicIncantation3 = '/gviz/tq?sheet=Sheet2&headers=1&range=A10:B10&tq=';
+      var magicIncantation3 = '/gviz/tq?sheet=Sheet2&headers=1&range=A10:A11&tq=';
 
       var query3 = new google.visualization.Query(
           'https://docs.google.com/spreadsheets/d/1CBtrfo3kJZW_y_xqrBg1gNXiJPcL_3h5MXvdoCf6kEM' + magicIncantation3 + queryString3);
@@ -166,8 +184,8 @@ body {font-family: Arial;}
         alert('Error in query: ' + response3.getMessage() + ' ' + response3.getDetailedMessage());
         return;
       }
-      var cssClassNames = {'headerRow': 'bold-green-font large-font', 'headerCell': 'underline-blue-font' };
-      var options = {'allowHtml': true, 'cssClassNames': cssClassNames};
+      var cssClassNames = {'headerCell': 'bold-white-font large-font lightblue-background cell-border', 'tableCell': 'bold-white-font large-font align-text lightblue-background cell-border'};
+      var options = {'allowHtml': true, 'cssClassNames': cssClassNames, 'width': 350, height: '50'};
       var data3 = response3.getDataTable();
 
 
