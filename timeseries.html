@@ -22,7 +22,7 @@
       // instantiates the pie chart, passes in the data and
       // draws it.
     function drawOne() {
-      var queryString =  encodeURIComponent('SELECT A,B,C,D,E,F,G,H ORDER BY A DESC LIMIT 12')
+      var queryString =  encodeURIComponent('SELECT Year(A),SUM(B),SUM(C),SUM(D),SUM(E),SUM(F),SUM(G),SUM(H) group by Year(A)')
       var magicIncantation = '/gviz/tq?sheet=Sheet1&headers=1&tq=';
 
       var query = new google.visualization.Query(
@@ -46,7 +46,7 @@
                        legend:{position: 'top', textStyle: {color: 'blue', fontSize: 8}}};
 
       var data1 = response.getDataTable();
-      var chart1 = new google.visualization.ColumnChart(document.getElementById('chart_vid1'));
+      var chart1 = new google.visualization.LineChart(document.getElementById('chart_vid1'));
       chart1.draw(data1, options);
 
 
