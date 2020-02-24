@@ -1,0 +1,222 @@
+<html>
+  <head>
+  <style>
+
+a{
+text-decoration: none;
+color: black;
+}
+
+a:visited{
+text-decoration: none;
+color: white;
+}
+
+  .bold-white-font {
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 1px #000000;
+  }
+  
+    .bold-font {
+    font-weight: bold;
+  }
+  
+   .large-font {
+    font-size: 20px;
+  }
+  
+  .lightblue-background {
+    background-color: #cce6ff;
+  }
+  
+  .lightgreen-background {
+    background-color: #aaff80;
+  }
+  
+  .align-text {
+    text-align: center;
+  }
+  
+  .cell-border {
+  	border: 100px;
+  }
+  
+  
+  .underline-blue-font {
+    text-decoration: underline;
+    color: blue;
+  }
+  
+  .mainButton {
+  	background-color: #4CAF50;
+  	border: none;
+  	color: white;
+  	font-weight: bold;
+  	padding: 5px 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	display: inline-block;
+  	font-size: 12px;
+  	cursor: pointer;
+  	}
+  	
+  .secondaryButton {
+  	background-color: #1f4720; 
+  	border: none;
+  	color: white;
+  	font-weight: bold;
+  	padding: 5px 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	display: inline-block;
+  	font-size: 12px;
+  	cursor: pointer;
+  	}
+</style>
+<div class="tab">
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'Dashboard')"><A HREF="/Users/arvind/HLProject/index.html">Dashboard</A></button>
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/HLProject/timeseries.html">Time Series</A></button>
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/Downloads/popularitypie.html">Popularity</A></button>
+</div>
+<div class="tab">
+	<button class= "secondaryButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/HLProject/timeseries.html">Time Series Yearly</A></button>
+	<button class= "secondaryButton" "tablinks" onclick="openCity(event, 'TimeSeriesQuarterly')"><A HREF="/Users/arvind/HLProject/timeseriesquarterly.html">Time Series Quarterly</A></button>
+</div>
+
+ <h1><font face="verdana" color="#3399ff"><center>Seattle City Service Requests</center></font></h1>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.load('current', {packages: ['table']}); 
+      
+      google.charts.setOnLoadCallback(drawFour);
+      google.charts.setOnLoadCallback(drawThree);
+      
+      function drawThree() {
+      var queryString3 =  encodeURIComponent('SELECT I,SUM(B),SUM(C),SUM(D),SUM(E),SUM(F),SUM(G),SUM(H) group by I')
+      var magicIncantation3 = '/gviz/tq?sheet=Sheet1&headers=1&tq=';
+
+      var query3 = new google.visualization.Query(
+          'https://docs.google.com/spreadsheets/d/1CBtrfo3kJZW_y_xqrBg1gNXiJPcL_3h5MXvdoCf6kEM' + magicIncantation3 + queryString3);
+      query3.send(handleSampleDataQueryResponse3);
+    }
+
+
+
+
+    function handleSampleDataQueryResponse3(response3) {
+      if (response3.isError()) {
+        alert('Error in query: ' + response3.getMessage() + ' ' + response3.getDetailedMessage());
+        return;
+      }
+       var options = {
+        title: 'Quarterly: Total Service Requests',
+        vAxis: {format: '####', title: 'Year', titleTextStyle:{color: 'black', bold: true}},
+        hAxis: {format: '', title: 'Service Requests', titleTextStyle:{color: 'black', bold: true}},
+        width: 1800,
+        height: 500,
+        bar: {groupWidth: "50%"},
+        legend:{position: 'top', textStyle: {color: 'blue', fontSize: 12}},
+        isStacked: true
+      };
+       
+       /*var options = {title:'Yearly: Total Service Requests',
+                      subtitle:'Last 12 months',
+                      hAxis: {format: '####'},
+                      //hAxis: {format: 'none'},
+                       width:1900,
+                       height:400,
+                       chartArea: {width: '90%'},
+                       legend:{position: 'top', textStyle: {color: 'blue', fontSize: 12}}};*/
+
+      var data3 = response3.getDataTable();
+      data3.setColumnLabel(0,'Year');
+      data3.setColumnLabel(1,'Abandoned Vehicle');
+      data3.setColumnLabel(2,'General Inquiry');
+      data3.setColumnLabel(3,'Graffiti Report');
+      data3.setColumnLabel(4,'Illegal Dumping Report');
+      data3.setColumnLabel(5,'Parking Enforcement');
+      data3.setColumnLabel(6,'Pothole');
+      data3.setColumnLabel(7,'Sign & Signal Maintenance');
+      var chart3 = new google.visualization.BarChart(document.getElementById('chart_vid3'));
+      chart3.draw(data3, options);
+
+
+    
+    }
+    
+    function drawFour() {
+      var queryString4 =  encodeURIComponent('SELECT I,SUM(B),SUM(C),SUM(D),SUM(E),SUM(F),SUM(G),SUM(H) group by I')
+      var magicIncantation4 = '/gviz/tq?sheet=Sheet1&headers=1&tq=';
+
+      var query4 = new google.visualization.Query(
+          'https://docs.google.com/spreadsheets/d/1CBtrfo3kJZW_y_xqrBg1gNXiJPcL_3h5MXvdoCf6kEM' + magicIncantation4 + queryString4);
+      query4.send(handleSampleDataQueryResponse4);
+    }
+
+
+
+
+    function handleSampleDataQueryResponse4(response4) {
+      if (response4.isError()) {
+        alert('Error in query: ' + response4.getMessage() + ' ' + response4.getDetailedMessage());
+        return;
+      }
+       /*var options = {
+        title: 'Yearly: Total Service Requests',
+        vAxis: {format: '####', title: 'Year', titleTextStyle:{color: 'black', bold: true}},
+        hAxis: {format: '', title: 'Service Requests', titleTextStyle:{color: 'black', bold: true}},
+        width: 1800,
+        height: 500,
+        bar: {groupWidth: "50%"},
+        legend:{position: 'top', textStyle: {color: 'blue', fontSize: 12}},
+        isStacked: true
+      }; */
+       
+       var options = {title:'Quarterly: Service Requests',
+                      subtitle:'Last 12 months',
+                      //hAxis: {format: '####'},
+                      //hAxis: {ticks: ['2010-Q1', '2011-Q1', '2012-Q1', '2013-Q1', '2014-Q1', '2015-Q1', '2016-Q1', '2017-Q1', '2018-Q1', '2019-Q1', '2020-Q1']},
+                      vAxis: {gridlines: {count: 8}, title: 'Service Requests', titleTextStyle:{color: 'black', bold: true}},
+                      hAxis: {slantedText:true, slantedTextAngle: 85, gridlines: {count: 11, color: '#377', minSpacing: 120}, title: 'Quarter', titleTextStyle:{color: 'black', bold: true}},
+                       width:1900,
+                       height:600,
+                       pointSize: 3,
+                       chartArea: {width: '90%'},
+                       legend:{position: 'top', textStyle: {color: 'blue', fontSize: 12}}};
+
+      var data4 = response4.getDataTable();
+      data4.setColumnLabel(0,'Year');
+      data4.setColumnLabel(1,'Abandoned Vehicle');
+      data4.setColumnLabel(2,'General Inquiry');
+      data4.setColumnLabel(3,'Graffiti Report');
+      data4.setColumnLabel(4,'Illegal Dumping Report');
+      data4.setColumnLabel(5,'Parking Enforcement');
+      data4.setColumnLabel(6,'Pothole');
+      data4.setColumnLabel(7,'Sign & Signal Maintenance');
+      var chart4 = new google.visualization.AreaChart(document.getElementById('chart_vid4'));
+      chart4.draw(data4, options);
+
+
+    
+    }
+
+    </script>
+  </head>
+
+ <body>
+ <table class="columns">
+      <tr>
+        <td><div id="chart_vid3" style="border: 1px solid #ccc"></div></td>
+      </tr>
+      <tr>
+        <td><div id="chart_vid4" style="border: 1px solid #ccc"></div></td>
+      </tr>
+      </table>
+  </body>
+</html>
+      

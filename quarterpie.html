@@ -1,0 +1,236 @@
+
+ <html>
+
+   <head>
+   <style>
+
+a{
+text-decoration: none;
+color: black;
+}
+
+a:visited{
+text-decoration: none;
+color: white;
+}
+
+  .bold-white-font {
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 1px #000000;
+  }
+  
+    .bold-font {
+    font-weight: bold;
+  }
+  
+   .large-font {
+    font-size: 20px;
+  }
+  
+  .lightblue-background {
+    background-color: #cce6ff;
+  }
+  
+  .lightgreen-background {
+    background-color: #aaff80;
+  }
+  
+  .align-text {
+    text-align: center;
+  }
+  
+  .cell-border {
+  	border: 100px;
+  }
+  
+  
+  .underline-blue-font {
+    text-decoration: underline;
+    color: blue;
+  }
+  
+  .mainButton {
+  	background-color: #4CAF50;
+  	border: none;
+  	color: white;
+  	font-weight: bold;
+  	padding: 5px 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	display: inline-block;
+  	font-size: 12px;
+  	cursor: pointer;
+  	}
+  	
+  .secondaryButton {
+  	background-color: #1f4720; 
+  	border: none;
+  	color: white;
+  	font-weight: bold;
+  	padding: 5px 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	display: inline-block;
+  	font-size: 12px;
+  	cursor: pointer;
+  	}
+</style>
+<div class="tab">
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'Dashboard')"><A HREF="/Users/arvind/HLProject/index.html">Dashboard</A></button>
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/HLProject/timeseries.html">Time Series</A></button>
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/Downloads/popularitypie.html">Popularity</A></button>
+</div>
+<div class="tab">
+	<button class= "secondaryButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/Downloads/popularitypie.html">Popularity Yearly</A></button>
+	<button class= "secondaryButton" "tablinks" onclick="openCity(event, 'TimeSeriesQuarterly')"><A HREF="/Users/arvind/HLProject/quarterpie.html">Popularity Quarterly</A></button>
+</div>
+
+ <h1><font face="verdana" color="#3399ff"><center>Seattle City Service Requests</center></font></h1>
+
+   <body style="height: auto; overflow: hidden; padding: 20px;">
+     <meta name="auto_height" content="true" />
+     <meta name="auto_width" content="true" />
+     <!--Load the AJAX API-->
+
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+     <div id="dashboard_div" style="border: 1px solid #ccc; margin-top: 1em">
+       <p><font face="verdana" color="black"><strong>Most Service Requests In</strong></font></p>
+       <table class="columns">
+         <tr>
+           <td>
+             <div id="categoryPicker_div"></div>
+           </td>
+         </tr>
+         <tr>
+           <td>
+             <div id="table_div" style="padding-top: 15px"></div>
+           </td>
+           <td>
+             <div id="chart_div" style="padding-top: 15px"></div>
+           </td>
+         </tr>
+       </table>
+     </div>
+     <script type="text/javascript">
+          google.charts.load('current', {
+            'packages': ['corechart', 'table', 'gauge', 'controls']
+          });
+          google.charts.setOnLoadCallback(drawMainDashboard);
+
+          function drawMainDashboard() {
+            var dashboard = new google.visualization.Dashboard(
+              document.getElementById('dashboard_div'));
+
+            var categoryPicker = new google.visualization.ControlWrapper({
+              'controlType': 'CategoryFilter',
+              'containerId': 'categoryPicker_div',
+              'options': {
+                'filterColumnIndex': 0,
+                'ui': {
+                  'labelStacking': 'vertical',
+                  'label': '',
+                  'allowTyping': false,
+                  'allowMultiple': false
+                }
+              },
+              state: {
+                selectedValues: ['2020-Q1']
+              }
+            });
+            
+            var options = {
+              height: 400,
+              width: 600,
+              pieHole: 0.5,
+              pieSliceTextStyle: {
+                color: 'white',
+                fontSize: 10
+              },
+              legend: {
+                position: 'right',
+                alignment: 'center'
+              },
+              chartArea: {
+                left: 10,
+                top: 10,
+                width: '200%',
+                height: '100%'
+              }
+            };
+
+            var pie = new google.visualization.ChartWrapper({
+              'chartType': 'PieChart',
+              'containerId': 'chart_div',
+              'view': {
+                'columns': [1, 2]
+              },
+              'options': options
+            });
+
+            var table = new google.visualization.ChartWrapper({
+              'chartType': 'Table',
+              'containerId': 'table_div',
+              'options': {},
+
+            });
+
+            var queryString2 = encodeURIComponent('SELECT (I),SUM(B),SUM(C),SUM(D),SUM(E),SUM(F),SUM(G),SUM(H) GROUP BY (I)')
+            var magicIncantation2 = '/gviz/tq?sheet=Sheet1&headers=1&tq=';
+
+            var query2 = new google.visualization.Query(
+              'https://docs.google.com/spreadsheets/d/1CBtrfo3kJZW_y_xqrBg1gNXiJPcL_3h5MXvdoCf6kEM' + magicIncantation2 + queryString2);
+            query2.send(handleSampleDataQueryResponse2);
+
+            function handleSampleDataQueryResponse2(response2) {
+              if (response2.isError()) {
+                alert('Error in query: ' + response2.getMessage() + ' ' + response2.getDetailedMessage());
+                return;
+              }
+
+              var data2 = response2.getDataTable();
+              data2.setColumnLabel(1, 'Abandoned Vehicle');
+              data2.setColumnLabel(2, 'General Inquiry');
+              data2.setColumnLabel(3, 'Graffiti Report');
+              data2.setColumnLabel(4, 'Illegal Dumping Report');
+              data2.setColumnLabel(5, 'Parking Enforcement');
+              data2.setColumnLabel(6, 'Pothole');
+              data2.setColumnLabel(7, 'Sign & Signal Maintenance');
+              data2.setColumnLabel(0, 'Year');
+
+              var newdata2 = transposeDataTable(data2);
+              
+    
+              function transposeDataTable(dataTable) {
+                //step 1: let us get what the columns would be
+                var newTB = new google.visualization.DataTable();
+                newTB.addColumn('string', 'Quarter');
+                newTB.addColumn('string', 'Request Type');
+                newTB.addColumn('number', 'Requests');
+
+
+                for (var cidx = 1; cidx < (dataTable.getNumberOfColumns()); cidx++) {
+                  newTB.addRows(dataTable.getNumberOfRows());
+                  for (var idx = 0; idx < (dataTable.getNumberOfRows()); idx++) {
+                    newTB.setCell(idx + (cidx - 1) * dataTable.getNumberOfRows(), 0, dataTable.getValue(idx, 0));
+                    newTB.setCell(idx + (cidx - 1) * dataTable.getNumberOfRows(), 1, dataTable.getColumnLabel(cidx));
+                    newTB.setCell(idx + (cidx - 1) * dataTable.getNumberOfRows(), 2, dataTable.getValue(idx, cidx));
+                  }
+                }
+                return newTB;
+              }
+              var formatter = new google.visualization.NumberFormat({pattern: '####'});
+              formatter.format(newdata2, 0); 
+
+              dashboard.bind([categoryPicker],[pie, table]);
+              dashboard.draw(newdata2);
+              
+            }
+          }
+      </script>
+
+   </body>
+   </head>
+
+ </html>

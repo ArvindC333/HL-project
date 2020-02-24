@@ -1,46 +1,16 @@
 <html>
   <head>
-  
-  <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {font-family: Arial;}
 
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+a{
+text-decoration: none;
+color: black;
 }
 
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
+a:visited{
+text-decoration: none;
+color: white;
 }
 
   .bold-white-font {
@@ -78,17 +48,29 @@ body {font-family: Arial;}
     text-decoration: underline;
     color: blue;
   }
+  
+  .mainButton {
+  	background-color: #4CAF50;
+  	border: none;
+  	color: white;
+  	font-weight: bold;
+  	padding: 5px 15px;
+  	text-align: center;
+  	text-decoration: none;
+  	display: inline-block;
+  	font-size: 12px;
+  	cursor: pointer;
+  	}
 </style>
-</head>
 
-  <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Dashboard')"><A HREF="/Users/arvind/HLProject/index.html">Dashboard</A></button>
-  <button class="tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/HLProject/timeseries.html">Time Series</A></button>
-  <button class="tablinks" onclick="openCity(event, 'SheetsChart')"><A HREF="/Users/arvind/Desktop/ReportingDashboard/SheetsChart.html">Sheets Chart</A></button>
+<div class="tab">
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'Dashboard')"><A HREF="/Users/arvind/HLProject/index.html">Dashboard</A></button>
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/HLProject/timeseries.html">Time Series</A></button>
+  <button class= "mainButton" "tablinks" onclick="openCity(event, 'TimeSeries')"><A HREF="/Users/arvind/Downloads/popularitypie.html">Popularity</A></button>
 </div>
 
-
- <h1><font face="verdana" color="green">12 Month Summary</font></h1>
+<h1><font face="verdana" color="#3399ff"><center>Seattle City Service Requests</center></font></h1>
+ <h1><font face="verdana" color="green">Past 12 Month Summary</font></h1>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -121,7 +103,7 @@ body {font-family: Arial;}
         alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
         return;
       }
-       var options = {title:'Service Requests Total',
+       var options = {title:'Service Requests',
                       subtitle:'Last 12 months',
                        width:1000,
                        height:400,
